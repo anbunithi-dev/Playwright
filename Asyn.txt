@@ -1,0 +1,233 @@
+Javascript setTimeout()
+The setTimeout() method executes a block of code after the specified time. The method executes the code only once.
+
+The commonly used syntax of JavaScript setTimeout is:
+
+setTimeout(function, milliseconds);
+Its parameters are:
+
+function - a function containing a block of code
+milliseconds - the time after which the function is executed
+The setTimeout() method returns an intervalID, which is a positive integer.
+
+
+
+
+
+JavaScript CallBack Function
+A function is a block of code that performs a certain task when called. For example,
+
+// function
+function greet(name) {
+    console.log('Hi' + ' ' + name);
+}
+
+greet('Peter'); // Hi Peter
+Run Code
+In the above program, a string value is passed as an argument to the greet() function.
+
+In JavaScript, you can also pass a function as an argument to a function. This function that is passed as an argument inside of another function is called a callback function. For example,
+
+// function
+function greet(name, callback) {
+    console.log('Hi' + ' ' + name);
+    callback();
+}
+
+// callback function
+function callMe() {
+    console.log('I am callback function');
+}
+
+// passing function as an argument
+greet('Peter', callMe);
+Run Code
+Output
+
+Hi Peter
+I am callback function
+In the above program, there are two functions. While calling the greet() function, two arguments (a string value and a function) are passed.
+
+The callMe() function is a callback function.
+
+
+
+
+
+
+
+
+
+JavaScript Promise and Promise Chaining
+In JavaScript, a promise is a good way to handle asynchronous operations. It is used to find out if the asynchronous operation is successfully completed or not.
+
+A promise may have one of three states.
+
+Pending
+Fulfilled
+Rejected
+A promise starts in a pending state. That means the process is not complete. If the operation is successful, the process ends in a fulfilled state. And, if an error occurs, the process ends in a rejected state.
+
+For example, when you request data from the server by using a promise, it will be in a pending state. When the data arrives successfully, it will be in a fulfilled state. If an error occurs, then it will be in a rejected state.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+JavaScript promises are used to handle asynchronous operations. They represent a value that may be available now, in the future, or never. Promise methods help in managing these asynchronous tasks.
+
+Here’s an overview of key JavaScript promise methods:
+
+### 1. **Promise.resolve(value)**
+
+This method returns a `Promise` object that is resolved with the given `value`. If the value is a promise, it will return that promise; if the value is not a promise, it returns a resolved promise with the value.
+
+```javascript
+let resolvedPromise = Promise.resolve("Resolved!");
+resolvedPromise.then((value) => console.log(value));
+// Output: Resolved!
+```
+
+### 2. **Promise.reject(reason)**
+
+This method returns a `Promise` object that is rejected with the given reason. It’s useful for returning a promise that has already failed.
+
+```javascript
+let rejectedPromise = Promise.reject("Error occurred!");
+rejectedPromise.catch((error) => console.log(error));
+// Output: Error occurred!
+```
+
+### 3. **Promise.all(iterable)**
+
+This method takes an array (or iterable) of promises and returns a new promise. It resolves when all the promises in the iterable have resolved or rejects if any promise in the iterable fails. The returned promise resolves with an array of the resolved values.
+
+```javascript
+let p1 = Promise.resolve(1);
+let p2 = Promise.resolve(2);
+let p3 = Promise.resolve(3);
+
+Promise.all([p1, p2, p3]).then((values) => console.log(values));
+// Output: [1, 2, 3]
+```
+
+If any of the promises reject, `Promise.all` will reject with that error:
+
+```javascript
+let p1 = Promise.resolve(1);
+let p2 = Promise.reject("Error");
+let p3 = Promise.resolve(3);
+
+Promise.all([p1, p2, p3]).catch((error) => console.log(error));
+// Output: Error
+```
+
+### 4. **Promise.allSettled(iterable)**
+
+This method returns a promise that resolves after all of the given promises have either resolved or rejected. It always returns an array of objects describing the outcome of each promise (whether fulfilled or rejected).
+
+```javascript
+let p1 = Promise.resolve(1);
+let p2 = Promise.reject("Error");
+let p3 = Promise.resolve(3);
+
+Promise.allSettled([p1, p2, p3]).then((results) =>
+  console.log(results)
+);
+// Output: [{status: "fulfilled", value: 1}, {status: "rejected", reason: "Error"}, {status: "fulfilled", value: 3}]
+```
+
+### 5. **Promise.race(iterable)**
+
+This method returns a promise that resolves or rejects as soon as one of the promises in the iterable resolves or rejects. It doesn’t wait for the other promises to complete.
+
+```javascript
+let p1 = new Promise((resolve) => setTimeout(resolve, 500, "One"));
+let p2 = new Promise((resolve) => setTimeout(resolve, 100, "Two"));
+
+Promise.race([p1, p2]).then((value) => console.log(value));
+// Output: Two (since p2 resolves faster)
+```
+
+### 6. **Promise.any(iterable)**
+
+This method returns a promise that resolves as soon as any of the promises in the iterable fulfills. If all the promises are rejected, it returns a rejected promise with an `AggregateError` (a collection of errors).
+
+```javascript
+let p1 = Promise.reject("Error 1");
+let p2 = Promise.resolve("Success!");
+let p3 = Promise.reject("Error 2");
+
+Promise.any([p1, p2, p3]).then((value) => console.log(value));
+// Output: Success!
+```
+
+If all promises reject:
+
+```javascript
+let p1 = Promise.reject("Error 1");
+let p2 = Promise.reject("Error 2");
+
+Promise.any([p1, p2]).catch((error) => console.log(error.errors));
+// Output: ["Error 1", "Error 2"]
+```
+
+### 7. **Promise.prototype.then(onFulfilled, onRejected)**
+
+This method is used to schedule the handling of a resolved or rejected promise. It takes two arguments: the first for handling the resolved value, and the second for handling the rejection.
+
+```javascript
+let promise = Promise.resolve("Success!");
+promise.then(
+  (value) => console.log(value),
+  (error) => console.log(error)
+);
+// Output: Success!
+```
+
+### 8. **Promise.prototype.catch(onRejected)**
+
+This method is a shortcut for handling rejected promises. It only takes one argument, the function that handles the error.
+
+```javascript
+let promise = Promise.reject("Error!");
+promise.catch((error) => console.log(error));
+// Output: Error!
+```
+
+### 9. **Promise.prototype.finally(onFinally)**
+
+This method is called when a promise is settled (resolved or rejected). It doesn't take arguments related to the resolved value or error; it's used for cleanup actions.
+
+```javascript
+let promise = Promise.resolve("Success!");
+
+promise
+  .then((value) => console.log(value))
+  .finally(() => console.log("Cleanup!"));
+// Output: Success!
+//         Cleanup!
+```
+
+### Summary of Key Points:
+- **Promise.resolve/reject**: Create resolved or rejected promises.
+- **Promise.all**: Waits for all promises to resolve, rejects if any fail.
+- **Promise.allSettled**: Waits for all promises to settle (resolve or reject), returns all results.
+- **Promise.race**: Resolves/rejects as soon as the first promise settles.
+- **Promise.any**: Resolves as soon as any promise fulfills; fails if all reject.
+- **.then/.catch/.finally**: Chain methods for handling resolved, rejected, and finally blocks of a promise.
+
+Let me know if you'd like more specific examples or further clarification on any of these!
+
+
