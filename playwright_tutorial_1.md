@@ -2,12 +2,30 @@
 
 Here's a comprehensive guide to using Playwright with TypeScript, covering all the concepts you mentioned:
 
+## 🚀 Features
+
+- Cross-browser testing (Chromium, Firefox, WebKit)
+- Mobile device emulation
+- Automatic waiting and retries
+- Visual regression testing
+- API request mocking
+- Parallel test execution
+- HTML & Allure reporting
+
+## 📦 Prerequisites
+
+- Node.js 16+
+- npm/yarn/pnpm
+- Git
+  
+
 ## 1. Setup and Browser Launch
 
-First, install Playwright:
+## 🛠️ Installation
 
 ```bash
 npm init playwright@latest
+npm install
 ```
 
 Then create a basic test file:
