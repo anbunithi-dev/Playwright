@@ -1,0 +1,261 @@
+
+---
+
+````markdown
+# 🎭 Playwright TypeScript Reference Guide
+
+This document provides a comprehensive guide to automating common UI elements and browser behaviors using Playwright with TypeScript.
+
+---
+
+## ✅ 1. User-Facing Locator
+
+```ts
+await page.getByText('Submit').click();
+await page.getByRole('button', { name: 'Submit' }).click();
+await page.getByLabel('Username').fill('anbu');
+````
+
+---
+
+## ☑️ 2. Checkbox
+
+```ts
+await page.getByLabel('Remember me').check();
+await page.getByLabel('Remember me').uncheck();
+```
+
+---
+
+## 🔘 3. Radio Button
+
+```ts
+await page.getByLabel('Male').check();
+```
+
+---
+
+## ⬇️ 4. Dropdown (Single Select)
+
+```ts
+await page.selectOption('#country', 'India');
+await page.selectOption('#country', { label: 'India' });
+```
+
+---
+
+## ✅✅ 5. Multiple Dropdown
+
+```ts
+await page.selectOption('#fruits', ['apple', 'banana']);
+```
+
+---
+
+## 📜 6. Get Dropdown Options
+
+```ts
+const options = await page.locator('#country option').allTextContents();
+console.log(options);
+```
+
+---
+
+## ⚠️ 7. JavaScript Alert
+
+```ts
+page.once('dialog', async dialog => {
+  console.log(dialog.message());
+  await dialog.accept();
+});
+await page.click('#alertBtn');
+```
+
+---
+
+## ✅ 8. Confirm Popup
+
+```ts
+page.once('dialog', async dialog => {
+  await dialog.accept();
+});
+await page.click('#confirmBtn');
+```
+
+---
+
+## 🪟 9. New Window / Tab
+
+```ts
+const [newPage] = await Promise.all([
+  context.waitForEvent('page'),
+  page.click('a[target="_blank"]'),
+]);
+await newPage.waitForLoadState();
+```
+
+---
+
+## 🧱 10. Iframe
+
+```ts
+const frame = page.frame({ name: 'iframeName' });
+await frame?.click('#insideFrameBtn');
+```
+
+---
+
+## 📜 11. Scroll Element Into View
+
+```ts
+await page.locator('#target').scrollIntoViewIfNeeded();
+```
+
+---
+
+## 🪟 12. Scroll Window
+
+```ts
+await page.evaluate(() => window.scrollBy(0, 500));
+```
+
+---
+
+## 📁 13. Read Data from JSON
+
+```ts
+import data from './data.json';
+console.log(data.username);
+```
+
+---
+
+## 📄 14. Read Data from CSV
+
+```ts
+import * as fs from 'fs';
+import * as csv from 'csv-parse/sync';
+
+const fileContent = fs.readFileSync('data.csv');
+const records = csv.parse(fileContent, { columns: true });
+console.log(records[0].name);
+```
+
+---
+
+## 🔐 15. dotenv
+
+```ts
+// .env
+// USERNAME=admin
+
+import * as dotenv from 'dotenv';
+dotenv.config();
+console.log(process.env.USERNAME);
+```
+
+---
+
+## 🔍 16. Search Field
+
+```ts
+await page.fill('#searchBox', 'Playwright');
+await page.press('#searchBox', 'Enter');
+```
+
+---
+
+## 📊 17. WebTable
+
+```ts
+const rows = page.locator('table tr');
+const count = await rows.count();
+for (let i = 0; i < count; i++) {
+  console.log(await rows.nth(i).textContent());
+}
+```
+
+---
+
+## 📅 18. Calendar / Date Picker
+
+```ts
+await page.fill('#datepicker', '2025-07-15');
+await page.click('#datepicker');
+await page.click('text=15');
+```
+
+---
+
+## 🗂️ 19. Tab (UI Tab Navigation)
+
+```ts
+await page.click('text=Settings');
+```
+
+---
+
+## ✅ 20. Assertion
+
+```ts
+import { expect } from '@playwright/test';
+expect(await page.textContent('h1')).toBe('Welcome');
+expect(await page.isVisible('text=Logout')).toBeTruthy();
+```
+
+---
+
+## ⏱️ 21. Auto-Wait
+
+> Playwright automatically waits for elements to be visible and actionable.
+
+```ts
+await page.click('#submit');
+```
+
+---
+
+## 🧱 22. Page Object Model (POM)
+
+```ts
+// LoginPage.ts
+export class LoginPage {
+  constructor(private page: Page) {}
+  async login(username: string, password: string) {
+    await this.page.fill('#user', username);
+    await this.page.fill('#pass', password);
+    await this.page.click('button[type="submit"]');
+  }
+}
+
+// test.ts
+const loginPage = new LoginPage(page);
+await loginPage.login('admin', 'password');
+```
+
+---
+
+## 💬 23. Tooltip
+
+```ts
+await page.hover('#tooltipBtn');
+const tooltipText = await page.locator('.tooltip').textContent();
+```
+
+---
+
+## 📦 24. Parameterization
+
+```ts
+test.each([
+  ['user1', 'pass1'],
+  ['user2', 'pass2'],
+])('Login with %s', async ({ page }, username, password) => {
+  await page.fill('#user', username);
+  await page.fill('#pass', password);
+  await page.click('#login');
+});
+```
+
+---
+
