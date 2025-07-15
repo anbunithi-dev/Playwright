@@ -134,8 +134,8 @@ import * as fs from 'fs';
 import * as csv from 'csv-parse/sync';
 
 const fileContent = fs.readFileSync('data.csv');
-const records = csv.parse(fileContent, { columns: true });
-console.log(records[0].name);
+const records = csv.parse(fileContent, columns:true,skip_empty_lines:true,skip_records_with_empty_values:true);
+console.log(records);
 ```
 
 ---
