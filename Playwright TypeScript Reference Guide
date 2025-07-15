@@ -1,7 +1,3 @@
-
----
-
-````markdown
 # 🎭 Playwright TypeScript Reference Guide
 
 This document provides a comprehensive guide to automating common UI elements and browser behaviors using Playwright with TypeScript.
@@ -14,7 +10,7 @@ This document provides a comprehensive guide to automating common UI elements an
 await page.getByText('Submit').click();
 await page.getByRole('button', { name: 'Submit' }).click();
 await page.getByLabel('Username').fill('anbu');
-````
+```
 
 ---
 
@@ -258,4 +254,3 @@ test.each([
 ```
 
 ---
-
